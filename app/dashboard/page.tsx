@@ -95,37 +95,56 @@ export default function DashboardPage() {
   // If mounted, user exists, and user auth loading is false:
   return (
     <AppLayout>
-      <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto">
-        <div className="flex flex-col sm:flex-row justify-between items-center w-full">
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4 sm:mb-0">
-            Welcome, {user?.email?.split('@')[0]}
-          </h1>
-          <button
-            className="bg-slate-600 hover:bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out"
-            onClick={handleSignOut}
-          >
-            Sign out
-          </button>
+      <div className="min-h-screen">
+        {/* Hero Section */}
+        <div className="bg-gradient-to-br from-indigo-600 to-indigo-700 py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col sm:flex-row justify-between items-center">
+              <div>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2">
+                  Welcome back, {(user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0])?.split(' ')[0]}!
+                </h1>
+                <p className="text-lg sm:text-xl text-indigo-100">
+                  Craft your perfect resume with AI assistance
+                </p>
+              </div>
+              <button
+                className="mt-4 sm:mt-0 bg-white hover:bg-gray-100 text-indigo-600 font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
+                onClick={handleSignOut}
+              >
+                Sign out
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div className="w-full mt-2">
-          <h2 className="text-xl font-semibold mb-4 text-slate-700">Your Resumes</h2>
-          <form className="flex flex-col sm:flex-row gap-3 mb-6" onSubmit={handleAddResume}>
-            <input
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3"
-              type="text"
-              placeholder="Enter new resume title..."
-              value={resumeTitle}
-              onChange={e => setResumeTitle(e.target.value)}
-            />
-            <button
-              className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-              type="submit"
-            >
-              Add Resume
-            </button>
-          </form>
-          <ResumeList resumes={resumes} loading={resumesLoading} error={error} />
+        {/* Main Content */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Your Resumes</h2>
+            
+            {/* Create Resume Form */}
+            <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+              <form className="flex flex-col sm:flex-row gap-4" onSubmit={handleAddResume}>
+                <input
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 text-base text-gray-900 placeholder-gray-400"
+                  type="text"
+                  placeholder="Enter your new resume title..."
+                  value={resumeTitle}
+                  onChange={e => setResumeTitle(e.target.value)}
+                />
+                <button
+                  className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  type="submit"
+                >
+                  Create Resume
+                </button>
+              </form>
+            </div>
+
+            {/* Resume List */}
+            <ResumeList resumes={resumes} loading={resumesLoading} error={error} />
+          </div>
         </div>
       </div>
     </AppLayout>
