@@ -73,39 +73,45 @@ export default function DashboardPage() {
   };
 
   if (loading) {
+    // Centering for loading state can be handled by AppLayout or a specific loading component
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
   if (!user) {
+    // This state should ideally not be visible for long due to redirects
     return <div className="flex items-center justify-center min-h-screen">Redirecting to login...</div>;
   }
 
   return (
     <AppLayout>
-      <div className="flex flex-col items-center justify-center min-h-screen gap-6 w-full max-w-xl mx-auto">
-        <h1 className="text-2xl font-bold">Welcome, {user?.email}</h1>
-        <button
-          className="px-6 py-3 rounded bg-gray-200 hover:bg-gray-300 shadow"
-          onClick={handleSignOut}
-        >
-          Sign out
-        </button>
+      <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto"> {/* Adjusted container for page content */}
+        <div className="flex flex-col sm:flex-row justify-between items-center w-full">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4 sm:mb-0">
+            Welcome, {user?.email?.split('@')[0]} {/* Display part of email */}
+          </h1>
+          <button
+            className="bg-slate-600 hover:bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out"
+            onClick={handleSignOut}
+          >
+            Sign out
+          </button>
+        </div>
 
-        <div className="w-full mt-6">
-          <h2 className="text-xl font-semibold mb-2">Your Resumes</h2>
-          <form className="flex gap-2 mb-4" onSubmit={handleAddResume}>
+        <div className="w-full mt-2"> {/* Reduced mt-6 to mt-2 */}
+          <h2 className="text-xl font-semibold mb-4 text-slate-700">Your Resumes</h2> {/* Added text-slate-700 and increased mb */}
+          <form className="flex flex-col sm:flex-row gap-3 mb-6" onSubmit={handleAddResume}> {/* Adjusted flex, gap, mb */}
             <input
-              className="flex-1 px-3 py-2 border rounded shadow"
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3"
               type="text"
-              placeholder="Resume title"
+              placeholder="Enter new resume title..."
               value={resumeTitle}
               onChange={e => setResumeTitle(e.target.value)}
             />
             <button
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
               type="submit"
             >
-              Add
+              Add Resume
             </button>
           </form>
           <ResumeList resumes={resumes} loading={resumesLoading} error={error} />
