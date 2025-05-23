@@ -13,17 +13,20 @@ interface ResumeCardProps {
 
 const ResumeCard: React.FC<ResumeCardProps> = ({ resume }) => {
   return (
-    <li className="border-b py-3 px-4 mb-2 bg-white shadow rounded hover:bg-gray-50 flex justify-between items-center">
-      <div>
-        <h3 className="text-lg font-semibold">{resume.title}</h3>
-        {/* Optional: Display other info like last edited date here */}
+    <li className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out">
+      <div className="p-6 flex justify-between items-center">
+        <div>
+          <h3 className="text-xl font-semibold text-slate-800 mb-0"> {/* Removed mb-2 as button is on same line */}
+            {resume.title}
+          </h3>
+          {/* Optional: Display other info like last edited date here */}
+        </div>
+        <Link href={`/builder/${resume.id}`} legacyBehavior>
+          <a className="px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-150 ease-in-out">
+            Open Builder
+          </a>
+        </Link>
       </div>
-      <Link href={`/builder/${resume.id}`} legacyBehavior>
-        <a className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
-          Open Builder
-        </a>
-      </Link>
-      {/* Placeholder for future actions (e.g., delete button) can go here or next to the title */}
     </li>
   );
 };

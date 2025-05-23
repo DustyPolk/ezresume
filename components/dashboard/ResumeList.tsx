@@ -15,15 +15,15 @@ interface ResumeListProps {
 
 const ResumeList: React.FC<ResumeListProps> = ({ resumes, loading, error }) => {
   if (loading) {
-    return <div className="text-center py-4">Loading resumes...</div>;
+    return <div className="text-slate-500 py-10 text-center">Loading resumes...</div>;
   }
 
   if (error) {
-    return <div className="text-red-600 bg-red-100 p-3 rounded">{error}</div>;
+    return <div className="bg-red-50 text-red-700 p-4 rounded-md text-center">{error}</div>;
   }
 
   if (resumes.length === 0) {
-    return <div className="text-center py-4 text-gray-600">No resumes yet. Add your first one!</div>;
+    return <div className="text-slate-500 py-10 text-center">No resumes yet. Add your first one!</div>;
   }
 
   return (
