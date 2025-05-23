@@ -15,32 +15,41 @@ interface Resume {
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // For user auth
   const [resumes, setResumes] = useState<Resume[]>([]); // Use Resume type
   const [resumeTitle, setResumeTitle] = useState("");
-  const [resumesLoading, setResumesLoading] = useState(false);
+  const [resumesLoading, setResumesLoading] = useState(false); // For resumes data
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false); // New mounted state
   const router = useRouter();
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data, error: authError } = await supabase.auth.getUser();
-      if (authError || !data?.user) {
-        router.push('/');
-        return;
-      }
-      setUser(data.user);
-      setLoading(false);
-    };
-    getUser();
-  }, [router]);
+    setMounted(true); // Set mounted after initial client render
+  }, []);
 
   useEffect(() => {
-    if (user) {
+    if (mounted) { // Only run auth check if mounted
+      const getUser = async () => {
+        const { data, error: authError } = await supabase.auth.getUser();
+        if (authError || !data?.user) {
+          router.push('/'); // Redirect if no user or error
+          return;
+        }
+        setUser(data.user);
+        setLoading(false); // Auth check finished
+      };
+      getUser();
+    }
+  }, [mounted, router]); // Depend on mounted and router
+
+  useEffect(() => {
+    // This already depends on 'user', which is set after 'mounted' and auth.
+    // And 'mounted' is implicitly handled by 'user' being null initially.
+    if (user) { // user will only be set if mounted and auth succeeded
       fetchResumes();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user]); // Keep dependency on user
 
   const fetchResumes = async () => {
     setResumesLoading(true);
@@ -68,26 +77,28 @@ export default function DashboardPage() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    setUser(null);
-    router.push('/');
+    setUser(null); // This will trigger the !user condition below if not redirected first
+    router.push('/'); // Explicitly redirect to home
   };
 
-  if (loading) {
-    // Centering for loading state can be handled by AppLayout or a specific loading component
+  if (!mounted || loading) { // Show loading if not mounted OR if user auth check is in progress
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
+  // If mounted and finished loading user auth:
   if (!user) {
-    // This state should ideally not be visible for long due to redirects
+    // This state should ideally not be rendered due to the redirect in the getUser useEffect,
+    // but as a fallback or during the brief moment before redirect.
     return <div className="flex items-center justify-center min-h-screen">Redirecting to login...</div>;
   }
 
+  // If mounted, user exists, and user auth loading is false:
   return (
     <AppLayout>
-      <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto"> {/* Adjusted container for page content */}
+      <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-center w-full">
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4 sm:mb-0">
-            Welcome, {user?.email?.split('@')[0]} {/* Display part of email */}
+            Welcome, {user?.email?.split('@')[0]}
           </h1>
           <button
             className="bg-slate-600 hover:bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out"
@@ -97,9 +108,9 @@ export default function DashboardPage() {
           </button>
         </div>
 
-        <div className="w-full mt-2"> {/* Reduced mt-6 to mt-2 */}
-          <h2 className="text-xl font-semibold mb-4 text-slate-700">Your Resumes</h2> {/* Added text-slate-700 and increased mb */}
-          <form className="flex flex-col sm:flex-row gap-3 mb-6" onSubmit={handleAddResume}> {/* Adjusted flex, gap, mb */}
+        <div className="w-full mt-2">
+          <h2 className="text-xl font-semibold mb-4 text-slate-700">Your Resumes</h2>
+          <form className="flex flex-col sm:flex-row gap-3 mb-6" onSubmit={handleAddResume}>
             <input
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3"
               type="text"
