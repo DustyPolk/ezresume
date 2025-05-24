@@ -108,6 +108,7 @@ npm run lint        # Run ESLint
 - 📋 Export functionality (planned)
 - 📋 Actual resume templates (currently placeholders)
 - 📋 Section-specific AI generation (planned)
+- 📋 User onboarding flow (planned - see `/documentation/onboarding_plan.md`)
 
 ### AI Integration Architecture
 
