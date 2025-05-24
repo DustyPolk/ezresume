@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Experience } from '../../../types/resume';
 import { inputStyles } from '../../../lib/styles';
-import LocationSelect from '../../ui/LocationSelect';
+import LocationSelectAsync from '../../ui/LocationSelectAsync';
 
 interface ExperienceSectionProps {
   experiences: Experience[];
@@ -148,10 +148,10 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ experiences, onCh
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Location
                     </label>
-                    <LocationSelect
+                    <LocationSelectAsync
                       value={experience.location}
                       onChange={(value) => updateExperience(experience.id, { location: value })}
-                      placeholder="Select or type a location..."
+                      placeholder="Type to search cities..."
                     />
                   </div>
 

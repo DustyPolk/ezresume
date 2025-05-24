@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Education } from '../../../types/resume';
 import { inputStyles } from '../../../lib/styles';
-import LocationSelect from '../../ui/LocationSelect';
+import LocationSelectAsync from '../../ui/LocationSelectAsync';
 
 interface EducationSectionProps {
   education: Education[];
@@ -246,10 +246,10 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education, onChange
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Location
                         </label>
-                        <LocationSelect
+                        <LocationSelectAsync
                           value={displayEdu.location}
                           onChange={(value) => updateEditingEducation(edu.id, { location: value })}
-                          placeholder="Select or type a location..."
+                          placeholder="Type to search cities..."
                         />
                       </div>
                       <div>
@@ -407,10 +407,10 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education, onChange
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Location
                     </label>
-                    <LocationSelect
+                    <LocationSelectAsync
                       value={editingEducation[newEducationId].location}
                       onChange={(value) => updateEditingEducation(newEducationId, { location: value })}
-                      placeholder="Select or type a location..."
+                      placeholder="Type to search cities..."
                     />
                   </div>
                   <div>
