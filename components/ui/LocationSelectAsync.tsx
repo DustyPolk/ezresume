@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import type { LoadOptions } from 'react-select-async-paginate';
 import { searchCities, LocationOption } from '@/lib/geonames';
 import { preloadPopularCities } from '@/lib/geonames-cache';
 
@@ -27,8 +27,21 @@ interface LocationSelectAsyncProps {
   className?: string;
 }
 
+// Types for react-select styling
+type StylesConfig = {
+  control: (provided: any, state: any) => any;
+  option: (provided: any, state: any) => any;
+  menu: (provided: any) => any;
+  menuList: (provided: any) => any;
+  input: (provided: any) => any;
+  placeholder: (provided: any) => any;
+  singleValue: (provided: any) => any;
+  loadingIndicator: (provided: any) => any;
+  noOptionsMessage: (provided: any) => any;
+};
+
 // Custom styles for react-select to match our design
-const customStyles = {
+const customStyles: StylesConfig = {
   control: (provided: any, state: any) => ({
     ...provided,
     minHeight: '42px',
@@ -108,10 +121,10 @@ const LocationSelectAsync: React.FC<LocationSelectAsyncProps> = ({
     }
   }, [value]);
 
-  const loadOptions: LoadOptions<LocationOption, any, any> = async (
+  const loadOptions = async (
     search: string,
     _loadedOptions: unknown,
-    { page }: any
+    { page }: { page: number }
   ) => {
     const offset = (page - 1) * 10;
     const { options, hasMore } = await searchCities(search, offset, 10);
@@ -141,7 +154,7 @@ const LocationSelectAsync: React.FC<LocationSelectAsyncProps> = ({
     LoadingMessage: () => (
       <div className="text-gray-500 py-2 px-3">Searching cities...</div>
     ),
-    NoOptionsMessage: (props: any) => {
+    NoOptionsMessage: (props: { selectProps: { inputValue?: string } }) => {
       const inputValue = props.selectProps.inputValue || '';
       return (
         <div className="text-gray-500 py-4 px-3 text-center">
@@ -156,7 +169,7 @@ const LocationSelectAsync: React.FC<LocationSelectAsyncProps> = ({
 
   return (
     <div className={className}>
-      <AsyncPaginate<LocationOption, any, any>
+      <AsyncPaginate
         value={selectedOption}
         onChange={handleChange as any}
         loadOptions={loadOptions}

@@ -1,7 +1,18 @@
 import { LocationOption } from './geonames';
 
+// Cache types
+interface CacheEntry<T> {
+  data: T;
+  timestamp: number;
+}
+
+interface LocalStorageCacheEntry<T> {
+  data: T;
+  expiry: number;
+}
+
 // In-memory cache for API responses
-const memoryCache = new Map<string, { data: any; timestamp: number }>();
+const memoryCache = new Map<string, CacheEntry<unknown>>();
 const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
 
 // Popular cities to preload for instant results
@@ -30,46 +41,47 @@ export const POPULAR_CITIES: LocationOption[] = [
 ];
 
 // Check if data is in cache and still valid
-export function getCachedData(key: string): any | null {
+export function getCachedData<T = unknown>(key: string): T | null {
   const cached = memoryCache.get(key);
   if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-    return cached.data;
+    return cached.data as T;
   }
   memoryCache.delete(key);
   return null;
 }
 
 // Store data in cache
-export function setCachedData(key: string, data: any): void {
+export function setCachedData<T = unknown>(key: string, data: T): void {
   memoryCache.set(key, { data, timestamp: Date.now() });
 }
 
 // Get data from localStorage with expiry
-export function getLocalStorageCache(key: string): any | null {
+export function getLocalStorageCache<T = unknown>(key: string): T | null {
   if (typeof window === 'undefined') return null;
   
   try {
     const item = localStorage.getItem(key);
     if (!item) return null;
     
-    const { data, expiry } = JSON.parse(item);
-    if (Date.now() > expiry) {
+    const parsed = JSON.parse(item) as LocalStorageCacheEntry<T>;
+    if (Date.now() > parsed.expiry) {
       localStorage.removeItem(key);
       return null;
     }
-    return data;
+    return parsed.data;
   } catch {
     return null;
   }
 }
 
 // Set data in localStorage with expiry
-export function setLocalStorageCache(key: string, data: any, ttlHours: number = 24): void {
+export function setLocalStorageCache<T = unknown>(key: string, data: T, ttlHours: number = 24): void {
   if (typeof window === 'undefined') return;
   
   try {
     const expiry = Date.now() + (ttlHours * 60 * 60 * 1000);
-    localStorage.setItem(key, JSON.stringify({ data, expiry }));
+    const entry: LocalStorageCacheEntry<T> = { data, expiry };
+    localStorage.setItem(key, JSON.stringify(entry));
   } catch (e) {
     // Handle quota exceeded or other errors
     console.warn('Failed to cache in localStorage:', e);
