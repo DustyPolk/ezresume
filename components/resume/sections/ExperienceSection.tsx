@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Experience } from '../../../types/resume';
 import { inputStyles } from '../../../lib/styles';
-import LocationAutocomplete from '../../ui/LocationAutocomplete';
+import LocationSelect from '../../ui/LocationSelect';
 
 interface ExperienceSectionProps {
   experiences: Experience[];
@@ -148,10 +148,10 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ experiences, onCh
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Location
                     </label>
-                    <LocationAutocomplete
+                    <LocationSelect
                       value={experience.location}
                       onChange={(value) => updateExperience(experience.id, { location: value })}
-                      placeholder="New York, NY"
+                      placeholder="Select or type a location..."
                     />
                   </div>
 

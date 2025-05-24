@@ -2,7 +2,7 @@
 import React from 'react';
 import { ContactInfo } from '../../../types/resume';
 import { inputStyles, labelStyles, sectionHeaderStyles, sectionDescriptionStyles } from '../../../lib/styles';
-import LocationAutocomplete from '../../ui/LocationAutocomplete';
+import LocationSelect from '../../ui/LocationSelect';
 
 interface ContactSectionProps {
   contact: ContactInfo;
@@ -70,10 +70,10 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact, onChange }) =>
             <label className={labelStyles}>
               Location
             </label>
-            <LocationAutocomplete
+            <LocationSelect
               value={contact.location || ''}
               onChange={(value) => handleChange('location', value)}
-              placeholder="New York, NY"
+              placeholder="Select or type a location..."
             />
           </div>
         </div>

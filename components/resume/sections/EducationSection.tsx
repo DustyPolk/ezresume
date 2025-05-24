@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Education } from '../../../types/resume';
 import { inputStyles } from '../../../lib/styles';
-import LocationAutocomplete from '../../ui/LocationAutocomplete';
+import LocationSelect from '../../ui/LocationSelect';
 
 interface EducationSectionProps {
   education: Education[];
@@ -246,10 +246,10 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education, onChange
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Location
                         </label>
-                        <LocationAutocomplete
+                        <LocationSelect
                           value={displayEdu.location}
                           onChange={(value) => updateEditingEducation(edu.id, { location: value })}
-                          placeholder="Berkeley, CA"
+                          placeholder="Select or type a location..."
                         />
                       </div>
                       <div>
@@ -407,10 +407,10 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education, onChange
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Location
                     </label>
-                    <LocationAutocomplete
+                    <LocationSelect
                       value={editingEducation[newEducationId].location}
                       onChange={(value) => updateEditingEducation(newEducationId, { location: value })}
-                      placeholder="Berkeley, CA"
+                      placeholder="Select or type a location..."
                     />
                   </div>
                   <div>
