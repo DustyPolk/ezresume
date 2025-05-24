@@ -17,8 +17,7 @@ export default function AuthPage() {
   useEffect(() => {
     if (mounted) { // Only run auth check if mounted
       const getUser = async () => {
-        const { data, error } = await supabase.auth.getUser();
-        // TODO: Handle error if needed
+        const { data } = await supabase.auth.getUser();
         setUser(data?.user || null);
         setLoading(false); // Auth check finished
       };
@@ -62,7 +61,7 @@ export default function AuthPage() {
             >
               Get Started - Sign in with Google
             </button>
-            <p className="mt-4 text-sm text-slate-400">It's free to get started!</p>
+            <p className="mt-4 text-sm text-slate-400">It&apos;s free to get started!</p>
           </div>
           {/* Optional: Placeholder for a visual element if design implies it */}
           {/* <div className="mt-12"> Image/Graphic Placeholder </div> */}

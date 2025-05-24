@@ -1,19 +1,22 @@
 import React from 'react';
 import ResumeCard from './ResumeCard'; // Assuming it's in the same directory
 
-interface Resume { // Duplicate or move to a shared types file
+interface Resume {
   id: string;
   title: string;
   created_at?: string;
+  updated_at?: string;
 }
 
 interface ResumeListProps {
   resumes: Resume[];
   loading: boolean;
   error: string | null;
+  onCreateResume?: () => void;
+  onUpdate?: () => void;
 }
 
-const ResumeList: React.FC<ResumeListProps> = ({ resumes, loading, error }) => {
+const ResumeList: React.FC<ResumeListProps> = ({ resumes, loading, error, onCreateResume, onUpdate }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16">
@@ -41,7 +44,13 @@ const ResumeList: React.FC<ResumeListProps> = ({ resumes, loading, error }) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
         <p className="text-xl text-gray-600 font-medium mb-2">No resumes yet</p>
-        <p className="text-gray-500">Create your first resume to get started!</p>
+        <p className="text-gray-500 mb-6">Create your first resume to get started!</p>
+        <button
+          onClick={onCreateResume}
+          className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Create Your First Resume
+        </button>
       </div>
     );
   }
@@ -49,7 +58,12 @@ const ResumeList: React.FC<ResumeListProps> = ({ resumes, loading, error }) => {
   return (
     <ul className="grid gap-6">
       {resumes.map(resume => (
-        <ResumeCard key={resume.id} resume={resume} />
+        <ResumeCard 
+          key={resume.id} 
+          resume={resume}
+          onUpdate={onUpdate}
+          onDelete={onUpdate}
+        />
       ))}
     </ul>
   );
