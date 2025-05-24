@@ -52,14 +52,24 @@ export function transformToOpenAIFormat(resume: Partial<ResumeData>): OpenAIResu
  * Calls the AI generation API with resume data
  */
 export async function generateAIResume(resumeData: Partial<ResumeData>): Promise<string> {
+  // Import supabase client to get the session
+  const { supabase } = await import('./supabaseClient');
+  
+  // Get the current session
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  
+  if (sessionError || !session) {
+    throw new Error('No active session. Please log in again.');
+  }
+  
   const openAIData = transformToOpenAIFormat(resumeData);
   
   const response = await fetch('/api/generate-resume', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.access_token}`,
     },
-    credentials: 'include', // Include cookies for authentication
     body: JSON.stringify(openAIData),
   });
 
