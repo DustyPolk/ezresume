@@ -1,6 +1,14 @@
 // GeoNames API integration for city search
 // Note: You need to register for a free account at https://www.geonames.org/login
 
+import { 
+  getCachedData, 
+  setCachedData, 
+  getLocalStorageCache, 
+  setLocalStorageCache,
+  filterPopularCities 
+} from './geonames-cache';
+
 interface GeoNameCity {
   geonameId: number;
   name: string;
@@ -46,6 +54,34 @@ export async function searchCities(
     return { options: [], hasMore: false, totalCount: 0 };
   }
 
+  // For the first page, check if we can use popular cities
+  if (offset === 0) {
+    const popularMatches = filterPopularCities(query);
+    if (popularMatches.length > 0 && query.length < 4) {
+      // For short queries, return popular cities first
+      return {
+        options: popularMatches.slice(0, limit),
+        hasMore: popularMatches.length > limit,
+        totalCount: popularMatches.length,
+      };
+    }
+  }
+
+  // Check memory cache first
+  const cacheKey = `geonames_${query}_${offset}_${limit}`;
+  const cachedResult = getCachedData(cacheKey);
+  if (cachedResult) {
+    return cachedResult;
+  }
+
+  // Check localStorage cache
+  const localCached = getLocalStorageCache(cacheKey);
+  if (localCached) {
+    // Also add to memory cache for faster subsequent access
+    setCachedData(cacheKey, localCached);
+    return localCached;
+  }
+
   // Use the username from environment variable or parameter
   const geoNamesUsername = username || process.env.NEXT_PUBLIC_GEONAMES_USERNAME;
   
@@ -57,15 +93,16 @@ export async function searchCities(
 
   try {
     const params = new URLSearchParams({
-      q: query,
+      name_startsWith: query, // Faster than 'q' parameter
       maxRows: limit.toString(),
       startRow: offset.toString(),
-      cities: 'cities1000', // Cities with population > 1000
-      orderby: 'relevance',
+      cities: 'cities5000', // Cities with population > 5000 (less results, faster)
+      orderby: 'population', // Order by population (most relevant cities first)
       featureClass: 'P', // Populated places
       username: geoNamesUsername,
       type: 'json',
-      style: 'FULL',
+      style: 'MEDIUM', // Less data than FULL
+      lang: 'en', // English names only
     });
 
     const response = await fetch(`${GEONAMES_API_BASE}/searchJSON?${params}`);
@@ -119,11 +156,17 @@ export async function searchCities(
       );
     }
 
-    return {
+    const result = {
       options,
       hasMore: data.totalResultsCount > offset + limit,
       totalCount: data.totalResultsCount,
     };
+
+    // Cache the result
+    setCachedData(cacheKey, result);
+    setLocalStorageCache(cacheKey, result, 24); // Cache for 24 hours
+
+    return result;
   } catch (error) {
     console.error('Error searching cities:', error);
     // Return fallback data on error

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import type { LoadOptions } from 'react-select-async-paginate';
 import { searchCities, LocationOption } from '@/lib/geonames';
+import { preloadPopularCities } from '@/lib/geonames-cache';
 
 // Dynamic import to avoid SSR issues
 const AsyncPaginate = dynamic(
@@ -93,6 +94,11 @@ const LocationSelectAsync: React.FC<LocationSelectAsyncProps> = ({
 }) => {
   const [selectedOption, setSelectedOption] = useState<LocationOption | null>(null);
 
+  // Preload popular cities on component mount
+  useEffect(() => {
+    preloadPopularCities();
+  }, []);
+
   // Find the matching option when value changes
   useEffect(() => {
     if (value) {
@@ -158,12 +164,14 @@ const LocationSelectAsync: React.FC<LocationSelectAsyncProps> = ({
         placeholder={placeholder}
         isClearable
         cacheUniqs={[]}
-        debounceTimeout={300}
+        debounceTimeout={200}
         additional={{
           page: 1,
         }}
         components={components}
         classNamePrefix="location-select"
+        // Minimum 2 characters to search
+        filterOption={() => true}
         // Allow custom input
         isValidNewOption={(inputValue: string) => inputValue.length >= 2}
         formatCreateLabel={(inputValue: string) => `Use "${inputValue}"`}
