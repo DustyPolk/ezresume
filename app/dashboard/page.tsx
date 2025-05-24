@@ -39,6 +39,19 @@ export default function DashboardPage() {
           router.push('/'); // Redirect if no user or error
           return;
         }
+        
+        // Check onboarding status
+        const { data: profile } = await supabase
+          .from('user_profiles')
+          .select('onboarding_completed')
+          .eq('user_id', data.user.id)
+          .single();
+        
+        if (!profile?.onboarding_completed) {
+          router.push('/onboarding');
+          return;
+        }
+        
         setUser(data.user);
         setLoading(false); // Auth check finished
       };

@@ -39,7 +39,11 @@ npm run lint        # Run ESLint
    useEffect(() => { setMounted(true); }, []);
    if (!mounted) return null;
    ```
-3. **Authentication Flow**: Google OAuth via Supabase, redirects authenticated users from `/` to `/dashboard`
+3. **Authentication Flow**: 
+   - Google OAuth via Supabase
+   - New users → redirect to `/onboarding`
+   - Completed users → redirect to `/dashboard`
+   - Dashboard checks onboarding completion
 4. **Data Access**: Supabase client-side queries with Row Level Security (RLS)
 5. **Environment Variables**: 
    - Supabase: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
@@ -49,9 +53,16 @@ npm run lint        # Run ESLint
 7. **Location Autocomplete**: GeoNames API integration with caching and popular cities
 
 ### Database Schema
-- **profiles** table: User profiles linked to auth.users
+- **profiles** table: DEPRECATED - see user_profiles
 - **resumes** table: Resume documents with user_id foreign key
+- **user_profiles** table: Extended user profiles with onboarding status
+- **user_experiences** table: Work experience entries
+- **user_education** table: Education history
+- **user_skills** table: Skills with categories and proficiency
+- **user_projects** table: Portfolio projects (optional)
+- **user_certifications** table: Professional certifications
 - RLS policies ensure users can only access their own data
+- Auto-creation of user_profiles on signup via trigger
 
 ### UI Components and Design System
 
@@ -103,12 +114,12 @@ npm run lint        # Run ESLint
 - ✅ GeoNames city autocomplete with caching
 - ✅ Debounced auto-save to prevent data loss
 - ✅ Data persistence across page reloads
+- ✅ User onboarding flow with 8-step process
 - 🚧 Resume builder UI with sections (contact, experience, education, skills)
 - 🚧 AI content generation with master prompt system
 - 📋 Export functionality (planned)
 - 📋 Actual resume templates (currently placeholders)
 - 📋 Section-specific AI generation (planned)
-- 📋 User onboarding flow (planned - see `/documentation/onboarding_plan.md`)
 
 ### AI Integration Architecture
 

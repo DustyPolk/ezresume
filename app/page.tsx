@@ -27,7 +27,23 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (mounted && user) { // Redirect only if mounted and user exists
-      router.push('/dashboard');
+      const checkOnboarding = async () => {
+        const { data: profile, error: profileError } = await supabase
+          .from('user_profiles')
+          .select('onboarding_completed')
+          .eq('user_id', user.id)
+          .single();
+        
+        // If tables don't exist or no profile found, we need onboarding
+        if (profileError || !profile) {
+          router.push('/onboarding');
+        } else if (profile.onboarding_completed) {
+          router.push('/dashboard');
+        } else {
+          router.push('/onboarding');
+        }
+      };
+      checkOnboarding();
     }
   }, [mounted, user, router]); // Depend on mounted and user
 
