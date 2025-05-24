@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Education } from '../../../types/resume';
 import { inputStyles } from '../../../lib/styles';
+import LocationSelectAsync from '../../ui/LocationSelectAsync';
 
 interface EducationSectionProps {
   education: Education[];
@@ -245,12 +246,10 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education, onChange
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Location
                         </label>
-                        <input
-                          type="text"
+                        <LocationSelectAsync
                           value={displayEdu.location}
-                          onChange={(e) => updateEditingEducation(edu.id, { location: e.target.value })}
-                          className={inputStyles}
-                          placeholder="Berkeley, CA"
+                          onChange={(value) => updateEditingEducation(edu.id, { location: value })}
+                          placeholder="Type to search cities..."
                         />
                       </div>
                       <div>
@@ -408,12 +407,10 @@ const EducationSection: React.FC<EducationSectionProps> = ({ education, onChange
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Location
                     </label>
-                    <input
-                      type="text"
+                    <LocationSelectAsync
                       value={editingEducation[newEducationId].location}
-                      onChange={(e) => updateEditingEducation(newEducationId, { location: e.target.value })}
-                      className={inputStyles}
-                      placeholder="Berkeley, CA"
+                      onChange={(value) => updateEditingEducation(newEducationId, { location: value })}
+                      placeholder="Type to search cities..."
                     />
                   </div>
                   <div>

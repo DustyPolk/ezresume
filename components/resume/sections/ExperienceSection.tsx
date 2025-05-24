@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Experience } from '../../../types/resume';
 import { inputStyles } from '../../../lib/styles';
+import LocationSelectAsync from '../../ui/LocationSelectAsync';
 
 interface ExperienceSectionProps {
   experiences: Experience[];
@@ -147,12 +148,10 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ experiences, onCh
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Location
                     </label>
-                    <input
-                      type="text"
+                    <LocationSelectAsync
                       value={experience.location}
-                      onChange={(e) => updateExperience(experience.id, { location: e.target.value })}
-                      className={inputStyles}
-                      placeholder="New York, NY"
+                      onChange={(value) => updateExperience(experience.id, { location: value })}
+                      placeholder="Type to search cities..."
                     />
                   </div>
 

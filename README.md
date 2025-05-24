@@ -53,7 +53,11 @@ A modern, AI-powered resume builder that helps you create professional resumes e
    ```env
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   OPENAI_API_KEY=your_openai_api_key
+   NEXT_PUBLIC_GEONAMES_USERNAME=your_geonames_username
    ```
+   
+   Note: For GeoNames, register for a free account at [geonames.org/login](https://www.geonames.org/login)
 
 4. **Set up Supabase**
    - Create a new project at [supabase.com](https://supabase.com)

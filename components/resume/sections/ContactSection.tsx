@@ -2,6 +2,7 @@
 import React from 'react';
 import { ContactInfo } from '../../../types/resume';
 import { inputStyles, labelStyles, sectionHeaderStyles, sectionDescriptionStyles } from '../../../lib/styles';
+import LocationSelectAsync from '../../ui/LocationSelectAsync';
 
 interface ContactSectionProps {
   contact: ContactInfo;
@@ -69,12 +70,10 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact, onChange }) =>
             <label className={labelStyles}>
               Location
             </label>
-            <input
-              type="text"
+            <LocationSelectAsync
               value={contact.location || ''}
-              onChange={(e) => handleChange('location', e.target.value)}
-              className={inputStyles}
-              placeholder="New York, NY"
+              onChange={(value) => handleChange('location', value)}
+              placeholder="Type to search cities..."
             />
           </div>
         </div>
