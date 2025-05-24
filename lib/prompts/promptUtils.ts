@@ -19,10 +19,10 @@ export function customizePrompt(
     const industryConfig = INDUSTRY_CONFIGS[options.industry.toLowerCase() as keyof typeof INDUSTRY_CONFIGS];
     if (industryConfig) {
       customPrompt += `\n\nINDUSTRY-SPECIFIC REQUIREMENTS:`;
-      if (industryConfig.emphasizeTechnicalSkills) {
+      if ('emphasizeTechnicalSkills' in industryConfig && industryConfig.emphasizeTechnicalSkills) {
         customPrompt += `\n- Emphasize technical skills and tools`;
       }
-      if (industryConfig.keywords) {
+      if ('keywords' in industryConfig && industryConfig.keywords) {
         customPrompt += `\n- Include keywords: ${industryConfig.keywords.join(', ')}`;
       }
     }
@@ -33,10 +33,10 @@ export function customizePrompt(
     const levelConfig = EXPERIENCE_LEVEL_CONFIGS[options.experienceLevel as keyof typeof EXPERIENCE_LEVEL_CONFIGS];
     if (levelConfig) {
       customPrompt += `\n\nEXPERIENCE LEVEL ADJUSTMENTS:`;
-      if (levelConfig.emphasizeEducation) {
+      if ('emphasizeEducation' in levelConfig && levelConfig.emphasizeEducation) {
         customPrompt += `\n- Give more weight to education and academic achievements`;
       }
-      if (levelConfig.emphasizeLeadership) {
+      if ('emphasizeLeadership' in levelConfig && levelConfig.emphasizeLeadership) {
         customPrompt += `\n- Highlight leadership experience and team management`;
       }
     }
