@@ -59,6 +59,7 @@ export async function generateAIResume(resumeData: Partial<ResumeData>): Promise
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include', // Include cookies for authentication
     body: JSON.stringify(openAIData),
   });
 
