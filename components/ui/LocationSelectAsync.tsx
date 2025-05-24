@@ -104,7 +104,7 @@ const LocationSelectAsync: React.FC<LocationSelectAsyncProps> = ({
 
   const loadOptions: LoadOptions<LocationOption, any, any> = async (
     search: string,
-    loadedOptions: LocationOption[],
+    _loadedOptions: unknown,
     { page }: any
   ) => {
     const offset = (page - 1) * 10;
@@ -135,21 +135,24 @@ const LocationSelectAsync: React.FC<LocationSelectAsyncProps> = ({
     LoadingMessage: () => (
       <div className="text-gray-500 py-2 px-3">Searching cities...</div>
     ),
-    NoOptionsMessage: ({ inputValue }: { inputValue: string }) => (
-      <div className="text-gray-500 py-4 px-3 text-center">
-        {inputValue.length < 2 
-          ? 'Type at least 2 characters to search' 
-          : `No cities found for "${inputValue}"`
-        }
-      </div>
-    ),
+    NoOptionsMessage: (props: any) => {
+      const inputValue = props.selectProps.inputValue || '';
+      return (
+        <div className="text-gray-500 py-4 px-3 text-center">
+          {inputValue.length < 2 
+            ? 'Type at least 2 characters to search' 
+            : `No cities found for "${inputValue}"`
+          }
+        </div>
+      );
+    },
   };
 
   return (
     <div className={className}>
-      <AsyncPaginate
+      <AsyncPaginate<LocationOption, any, any>
         value={selectedOption}
-        onChange={handleChange}
+        onChange={handleChange as any}
         loadOptions={loadOptions}
         styles={customStyles}
         placeholder={placeholder}
