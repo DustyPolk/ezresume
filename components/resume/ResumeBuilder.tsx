@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { supabase } from '../../lib/supabaseClient';
 import { ResumeData, SectionType } from '../../types/resume';
@@ -22,6 +22,7 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ resumeId }) => {
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [generating, setGenerating] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     fetchResume();
@@ -55,43 +56,64 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ resumeId }) => {
       return;
     }
 
-    // Initialize with default data if content is empty
-    const defaultData: ResumeData = {
-      id: resumeId,
-      userId: resume.user_id,
-      title: resume.title,
-      template: 'modern',
-      contact: {
-        fullName: '',
-        email: '',
-        phone: '',
-        location: '',
-      },
-      summary: '',
-      experience: [],
-      education: [],
-      skills: [],
-      projects: [],
-      certifications: [],
-      createdAt: resume.created_at,
-      updatedAt: resume.updated_at,
-    };
-
-    const content = resume.content || defaultData;
-    setResumeData(content);
+    // Use saved content if available, otherwise use default structure
+    if (resume.content && Object.keys(resume.content).length > 0) {
+      // Ensure the content has all required fields with saved data
+      const savedContent = {
+        ...resume.content,
+        id: resumeId,
+        userId: resume.user_id,
+        title: resume.title,
+        createdAt: resume.created_at,
+        updatedAt: resume.updated_at,
+      };
+      setResumeData(savedContent);
+    } else {
+      // Only use default data if there's no saved content
+      const defaultData: ResumeData = {
+        id: resumeId,
+        userId: resume.user_id,
+        title: resume.title,
+        template: 'modern',
+        contact: {
+          fullName: '',
+          email: '',
+          phone: '',
+          location: '',
+        },
+        summary: '',
+        experience: [],
+        education: [],
+        skills: [],
+        projects: [],
+        certifications: [],
+        createdAt: resume.created_at,
+        updatedAt: resume.updated_at,
+      };
+      setResumeData(defaultData);
+    }
     setLoading(false);
   };
 
-  const updateResumeData = (updates: Partial<ResumeData>) => {
+  const updateResumeData = useCallback((updates: Partial<ResumeData>) => {
     if (!resumeData) return;
     
     const updatedData = { ...resumeData, ...updates };
     setResumeData(updatedData);
-    autoSave(updatedData);
-  };
+    
+    // Clear existing timeout
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+    
+    // Set new timeout for debounced save (1.5 seconds)
+    setSaving(true);
+    saveTimeoutRef.current = setTimeout(() => {
+      autoSave(updatedData);
+    }, 1500);
+  }, [resumeData, resumeId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const autoSave = async (data: ResumeData) => {
-    setSaving(true);
     const { error } = await supabase
       .from('resumes')
       .update({ 
@@ -105,6 +127,15 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ resumeId }) => {
     }
     setSaving(false);
   };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleGenerateAI = async () => {
     if (!resumeData) return;
