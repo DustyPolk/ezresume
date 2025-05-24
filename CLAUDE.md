@@ -42,6 +42,7 @@ npm run lint        # Run ESLint
 3. **Authentication Flow**: Google OAuth via Supabase, redirects authenticated users from `/` to `/dashboard`
 4. **Data Access**: Supabase client-side queries with Row Level Security (RLS)
 5. **Environment Variables**: Required for Supabase configuration (NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY)
+6. **OpenAI Integration**: AI-powered resume generation using GPT-4, requires OPENAI_API_KEY
 
 ### Database Schema
 - **profiles** table: User profiles linked to auth.users
@@ -76,7 +77,7 @@ npm run lint        # Run ESLint
 ### Development Notes
 
 1. **No Testing Setup**: Project currently has no test files or testing framework configured
-2. **No API Routes**: All data operations happen client-side via Supabase
+2. **API Routes**: `/api/generate-resume` for OpenAI integration
 3. **Turbopack**: Development server uses `--turbopack` flag for faster builds
 4. **TypeScript Config**: Basic Next.js TypeScript setup, no custom paths or aliases
 
@@ -86,7 +87,9 @@ npm run lint        # Run ESLint
 - ✅ Dashboard with aligned UI design (indigo theme, enhanced cards)
 - ✅ Basic resume CRUD operations
 - ✅ User personalization (displays first name from Google profile)
+- ✅ OpenAI integration for AI-powered resume generation
 - 🚧 Resume builder UI with template picker (in progress)
-- 📋 AI content generation (planned)
+- 🚧 AI content generation UI and prompts (basic implementation)
 - 📋 Export functionality (planned)
 - 📋 Actual resume templates (currently placeholders)
+- 📋 Enhanced AI prompts for different sections (planned)
