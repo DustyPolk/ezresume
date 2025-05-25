@@ -170,6 +170,39 @@ export function AdditionalInfoStep({ onNext, onBack }: AdditionalInfoStepProps) 
   const handleNext = async () => {
     setIsSaving(true);
     try {
+      // Clear and re-add all projects
+      data.projects.forEach(p => removeProjectFromContext(p.id));
+      projects.forEach(project => {
+        if (project.name.trim()) {
+          addProjectToContext({
+            project_name: project.name,
+            description: project.description,
+            project_url: project.url,
+            technologies_used: project.technologies ? project.technologies.split(',').map(t => t.trim()) : [],
+            start_date: project.date,
+            end_date: undefined,
+            role: undefined,
+            key_achievements: [],
+            order_index: 0,
+          });
+        }
+      });
+
+      // Clear and re-add all certifications
+      data.certifications.forEach(c => removeCertFromContext(c.id));
+      certifications.forEach(cert => {
+        if (cert.name.trim() && cert.issuer.trim()) {
+          addCertToContext({
+            certification_name: cert.name,
+            issuing_organization: cert.issuer,
+            issue_date: cert.date,
+            expiry_date: cert.expiryDate,
+            credential_id: cert.credentialId,
+            credential_url: cert.url,
+          });
+        }
+      });
+      
       await saveProgress();
       onNext();
     } catch (error) {

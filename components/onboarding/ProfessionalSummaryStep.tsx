@@ -275,11 +275,28 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
             <label htmlFor="targetRoles" className="block text-sm font-medium text-gray-700 mb-2">
               Target Roles *
             </label>
+            <p className="text-sm text-gray-500 mb-2">
+              Separate multiple roles with commas
+            </p>
             <input
               type="text"
               id="targetRoles"
               value={formData.target_roles?.join(', ') || ''}
-              onChange={(e) => handleChange('target_roles', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+              onChange={(e) => {
+                // Only split by comma when there's actually a comma in the input
+                const value = e.target.value;
+                if (value.includes(',')) {
+                  handleChange('target_roles', value.split(',').map(s => s.trim()).filter(Boolean));
+                } else {
+                  // For single values without commas, just store as array with one item
+                  handleChange('target_roles', value ? [value] : []);
+                }
+              }}
+              onBlur={(e) => {
+                // On blur, properly split and trim all values
+                const value = e.target.value;
+                handleChange('target_roles', value.split(',').map(s => s.trim()).filter(Boolean));
+              }}
               className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
                 errors.target_roles ? 'border-red-500' : 'border-gray-300'
               }`}

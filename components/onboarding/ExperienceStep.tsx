@@ -61,7 +61,8 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
       
       // Add all experiences
       expData.forEach((exp, index) => {
-        if (exp.company.trim() || exp.position.trim()) {
+        // Only save experiences that have required fields
+        if (exp.company.trim() && exp.position.trim() && exp.startDate) {
           addToContext({
             company_name: exp.company,
             job_title: exp.position,
@@ -203,6 +204,27 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
     if (validateForm()) {
       setIsSaving(true);
       try {
+        // Clear existing experiences
+        data.experiences.forEach(exp => {
+          removeFromContext(exp.id);
+        });
+        
+        // Add all valid experiences
+        experiences.forEach((exp, index) => {
+          if (exp.company.trim() && exp.position.trim() && exp.startDate) {
+            addToContext({
+              company_name: exp.company,
+              job_title: exp.position,
+              location: exp.location,
+              start_date: exp.startDate,
+              end_date: exp.endDate || undefined,
+              is_current: exp.current,
+              key_achievements: exp.responsibilities.filter(r => r.trim()),
+              order_index: index,
+            });
+          }
+        });
+        
         await saveProgress();
         onNext();
       } catch (error) {

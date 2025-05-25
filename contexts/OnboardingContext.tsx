@@ -295,6 +295,33 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
     }));
   };
 
+  // Helper function to format dates for PostgreSQL
+  const formatDateForDB = (dateStr: string | null | undefined): string | null => {
+    if (!dateStr) return null;
+    
+    // If it's already in YYYY-MM-DD format, return as is
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      return dateStr;
+    }
+    
+    // If it's in YYYY-MM format, add day 01
+    if (/^\d{4}-\d{2}$/.test(dateStr)) {
+      return `${dateStr}-01`;
+    }
+    
+    // If it's in other formats, try to parse and format
+    try {
+      const date = new Date(dateStr);
+      if (!isNaN(date.getTime())) {
+        return date.toISOString().split('T')[0];
+      }
+    } catch (e) {
+      console.warn('Could not parse date:', dateStr);
+    }
+    
+    return null;
+  };
+
   const saveProgress = useCallback(async () => {
     // Prevent concurrent saves
     if (isSavingRef.current) {
@@ -359,20 +386,28 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
 
       if (data.experiences.length > 0) {
         console.log('Saving experiences:', data.experiences.length);
-        const experiencesData = data.experiences.map((exp, index) => ({
-          id: exp.id.startsWith('temp_') ? undefined : exp.id,
-          user_id: userId,
-          company_name: exp.company_name,
-          job_title: exp.job_title,
-          location: exp.location,
-          start_date: exp.start_date,
-          end_date: exp.end_date,
-          is_current: exp.is_current,
-          description: exp.description,
-          key_achievements: exp.key_achievements,
-          technologies_used: exp.technologies_used,
-          order_index: index,
-        }));
+        const experiencesData = data.experiences.map((exp, index) => {
+          const expData: any = {
+            user_id: userId,
+            company_name: exp.company_name,
+            job_title: exp.job_title,
+            location: exp.location,
+            start_date: formatDateForDB(exp.start_date),
+            end_date: formatDateForDB(exp.end_date),
+            is_current: exp.is_current,
+            description: exp.description,
+            key_achievements: exp.key_achievements,
+            technologies_used: exp.technologies_used,
+            order_index: index,
+          };
+          
+          // Only include id if it's not a temporary one
+          if (!exp.id.startsWith('temp_')) {
+            expData.id = exp.id;
+          }
+          
+          return expData;
+        });
         console.log('Experiences data to save:', JSON.stringify(experiencesData, null, 2));
 
         const { error: expError } = await supabase
@@ -393,20 +428,28 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
 
       if (data.education.length > 0) {
         console.log('Saving education:', data.education.length);
-        const educationData = data.education.map((edu, index) => ({
-          id: edu.id.startsWith('temp_') ? undefined : edu.id,
-          user_id: userId,
-          institution_name: edu.institution_name,
-          degree_type: edu.degree_type,
-          field_of_study: edu.field_of_study,
-          location: edu.location,
-          start_date: edu.start_date,
-          graduation_date: edu.graduation_date,
-          gpa: edu.gpa,
-          relevant_coursework: edu.relevant_coursework,
-          honors_awards: edu.honors_awards,
-          order_index: index,
-        }));
+        const educationData = data.education.map((edu, index) => {
+          const eduData: any = {
+            user_id: userId,
+            institution_name: edu.institution_name,
+            degree_type: edu.degree_type,
+            field_of_study: edu.field_of_study,
+            location: edu.location,
+            start_date: formatDateForDB(edu.start_date),
+            graduation_date: formatDateForDB(edu.graduation_date),
+            gpa: edu.gpa,
+            relevant_coursework: edu.relevant_coursework,
+            honors_awards: edu.honors_awards,
+            order_index: index,
+          };
+          
+          // Only include id if it's not a temporary one
+          if (!edu.id.startsWith('temp_')) {
+            eduData.id = edu.id;
+          }
+          
+          return eduData;
+        });
         console.log('Education data to save:', JSON.stringify(educationData, null, 2));
 
         const { error: eduError } = await supabase
@@ -420,21 +463,43 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
       }
 
       // Save skills
-      await supabase
+      const { error: deleteSkillsError } = await supabase
         .from('user_skills')
         .delete()
         .eq('user_id', userId);
+        
+      if (deleteSkillsError) {
+        console.error('Error deleting existing skills:', JSON.stringify(deleteSkillsError, null, 2));
+      }
 
       if (data.skills.length > 0) {
         console.log('Saving skills:', data.skills.length);
-        const skillsData = data.skills.map(skill => ({
-          id: skill.id.startsWith('temp_') ? undefined : skill.id,
-          user_id: userId,
-          skill_name: skill.skill_name,
-          skill_category: skill.skill_category,
-          proficiency_level: skill.proficiency_level,
-          years_of_experience: skill.years_of_experience,
-        }));
+        
+        // Remove duplicates based on skill_name (case-insensitive)
+        const uniqueSkills = data.skills.reduce((acc, skill) => {
+          const key = skill.skill_name.toLowerCase().trim();
+          if (!acc.has(key) && skill.skill_name.trim()) {
+            acc.set(key, skill);
+          }
+          return acc;
+        }, new Map<string, typeof data.skills[0]>());
+        
+        const skillsData = Array.from(uniqueSkills.values()).map(skill => {
+          const skillData: any = {
+            user_id: userId,
+            skill_name: skill.skill_name.trim(),
+            skill_category: skill.skill_category,
+            proficiency_level: skill.proficiency_level,
+            years_of_experience: skill.years_of_experience,
+          };
+          
+          // Only include id if it's not a temporary one
+          if (!skill.id.startsWith('temp_')) {
+            skillData.id = skill.id;
+          }
+          
+          return skillData;
+        });
         console.log('Skills data to save:', JSON.stringify(skillsData, null, 2));
 
         const { error: skillsError } = await supabase
@@ -454,12 +519,27 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
         .eq('user_id', userId);
 
       if (data.projects.length > 0) {
-        const projectsData = data.projects.map((project, index) => ({
-          ...project,
-          id: project.id.startsWith('temp_') ? undefined : project.id,
-          user_id: userId,
-          order_index: index,
-        }));
+        const projectsData = data.projects.map((project, index) => {
+          const projectData: any = {
+            user_id: userId,
+            project_name: project.project_name,
+            description: project.description,
+            role: project.role,
+            technologies_used: project.technologies_used,
+            project_url: project.project_url,
+            key_achievements: project.key_achievements,
+            order_index: index,
+            start_date: formatDateForDB(project.start_date),
+            end_date: formatDateForDB(project.end_date),
+          };
+          
+          // Only include id if it's not a temporary one
+          if (!project.id.startsWith('temp_')) {
+            projectData.id = project.id;
+          }
+          
+          return projectData;
+        });
 
         const { error: projectsError } = await supabase
           .from('user_projects')
@@ -478,11 +558,24 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
         .eq('user_id', userId);
 
       if (data.certifications.length > 0) {
-        const certsData = data.certifications.map(cert => ({
-          ...cert,
-          id: cert.id.startsWith('temp_') ? undefined : cert.id,
-          user_id: userId,
-        }));
+        const certsData = data.certifications.map(cert => {
+          const certData: any = {
+            user_id: userId,
+            certification_name: cert.certification_name,
+            issuing_organization: cert.issuing_organization,
+            credential_id: cert.credential_id,
+            credential_url: cert.credential_url,
+            issue_date: formatDateForDB(cert.issue_date),
+            expiry_date: formatDateForDB(cert.expiry_date),
+          };
+          
+          // Only include id if it's not a temporary one
+          if (!cert.id.startsWith('temp_')) {
+            certData.id = cert.id;
+          }
+          
+          return certData;
+        });
 
         const { error: certsError } = await supabase
           .from('user_certifications')

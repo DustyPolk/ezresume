@@ -64,6 +64,24 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [selectedCategory, setSelectedCategory] = useState('');
 
+  // Map frontend categories to database categories
+  const mapCategoryToDb = (category: string): 'technical' | 'soft' | 'language' | 'tool' => {
+    const categoryMap: Record<string, 'technical' | 'soft' | 'language' | 'tool'> = {
+      'technical': 'technical',
+      'software': 'tool',
+      'language': 'language',
+      'management': 'soft',
+      'communication': 'soft',
+      'design': 'technical',
+      'marketing': 'soft',
+      'sales': 'soft',
+      'finance': 'technical',
+      'other': 'soft',
+    };
+    
+    return categoryMap[category.toLowerCase()] || 'soft';
+  };
+
   // Auto-save with debouncing
   const debouncedSave = React.useMemo(
     () => debounce(async (skillData: Skill[]) => {
@@ -77,7 +95,7 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
         if (skill.name.trim()) {
           addToContext({
             skill_name: skill.name,
-            skill_category: skill.category.toLowerCase() as 'technical' | 'soft' | 'language' | 'tool',
+            skill_category: mapCategoryToDb(skill.category),
             proficiency_level: skill.level,
           });
         }
@@ -172,6 +190,23 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
     if (validateForm()) {
       setIsSaving(true);
       try {
+        // Clear existing skills
+        data.skills.forEach(skill => {
+          removeFromContext(skill.id);
+        });
+        
+        // Add all current skills
+        skills.forEach(skill => {
+          if (skill.name.trim()) {
+            addToContext({
+              skill_name: skill.name,
+              skill_category: mapCategoryToDb(skill.category),
+              proficiency_level: skill.level,
+            });
+          }
+        });
+        
+        // Save to database
         await saveProgress();
         onNext();
       } catch (error) {
