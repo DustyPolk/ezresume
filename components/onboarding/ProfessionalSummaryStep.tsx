@@ -174,9 +174,9 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
     <div className="max-w-2xl mx-auto">
       <div className="mb-8">
         <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Professional Summary</h2>
-            <p className="text-gray-600">Tell us about your professional background and goals</p>
+          <div className="text-center w-full">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">Professional Summary</h2>
+            <p className="text-slate-600 text-lg">Tell us about your professional background and goals</p>
           </div>
           {isSaving && (
             <div className="flex items-center text-sm text-gray-500">
@@ -190,11 +190,11 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-200 p-8">
         <div className="space-y-6">
           {/* Professional Headline */}
           <div>
-            <label htmlFor="headline" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="headline" className="block text-sm font-semibold text-slate-700 mb-2">
               Professional Headline *
             </label>
             <input
@@ -202,8 +202,8 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
               id="headline"
               value={formData.professional_headline || ''}
               onChange={(e) => handleChange('professional_headline', e.target.value)}
-              className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                errors.professional_headline ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                errors.professional_headline ? 'border-red-500' : 'border-slate-300'
               }`}
               placeholder="e.g., Senior Software Engineer, Marketing Manager, Data Analyst"
             />
@@ -214,7 +214,7 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
 
           {/* Experience Level */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
               Experience Level *
             </label>
             <div className="grid grid-cols-2 gap-3">
@@ -226,13 +226,13 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
                     const yearsMap = { entry: 1, mid: 5, senior: 10, executive: 20 };
                     handleChange('years_of_experience', yearsMap[level.value as keyof typeof yearsMap]);
                   }}
-                  className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                  className={`px-4 py-3 rounded-xl border text-sm font-medium transition-all transform hover:scale-105 ${
                     (formData.years_of_experience <= 2 && level.value === 'entry') ||
                     (formData.years_of_experience > 2 && formData.years_of_experience <= 7 && level.value === 'mid') ||
                     (formData.years_of_experience > 7 && formData.years_of_experience <= 15 && level.value === 'senior') ||
                     (formData.years_of_experience > 15 && level.value === 'executive')
-                      ? 'bg-indigo-600 text-white border-indigo-600'
-                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-transparent shadow-lg'
+                      : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
                   }`}
                 >
                   {level.label}
@@ -246,10 +246,10 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
 
           {/* Professional Summary */}
           <div>
-            <label htmlFor="summary" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="summary" className="block text-sm font-semibold text-slate-700 mb-2">
               Professional Summary *
             </label>
-            <p className="text-sm text-gray-500 mb-2">
+            <p className="text-sm text-slate-500 mb-2">
               Write 2-3 sentences about your experience, skills, and what you bring to employers
             </p>
             <textarea
@@ -257,25 +257,25 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
               value={formData.professional_summary || ''}
               onChange={(e) => handleChange('professional_summary', e.target.value)}
               rows={4}
-              className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                errors.professional_summary ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                errors.professional_summary ? 'border-red-500' : 'border-slate-300'
               }`}
               placeholder="Experienced professional with expertise in..."
             />
             {errors.professional_summary && (
               <p className="mt-1 text-sm text-red-600">{errors.professional_summary}</p>
             )}
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-slate-500">
               {formData.professional_summary?.length || 0} characters
             </p>
           </div>
 
           {/* Target Roles */}
           <div>
-            <label htmlFor="targetRoles" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="targetRoles" className="block text-sm font-semibold text-slate-700 mb-2">
               Target Roles *
             </label>
-            <p className="text-sm text-gray-500 mb-2">
+            <p className="text-sm text-slate-500 mb-2">
               Separate multiple roles with commas
             </p>
             <input
@@ -297,8 +297,8 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
                 const value = e.target.value;
                 handleChange('target_roles', value.split(',').map(s => s.trim()).filter(Boolean));
               }}
-              className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                errors.target_roles ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                errors.target_roles ? 'border-red-500' : 'border-slate-300'
               }`}
               placeholder="e.g., Software Engineer, Product Manager, Data Scientist"
             />
@@ -309,7 +309,7 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
 
           {/* Target Industries */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
               Target Industries * (Select all that apply)
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -322,9 +322,9 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
                     type="checkbox"
                     checked={formData.target_industries?.includes(industry) || false}
                     onChange={() => handleIndustryChange(industry)}
-                    className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
                   />
-                  <span className="text-sm text-gray-700">{industry}</span>
+                  <span className="text-sm text-slate-700">{industry}</span>
                 </label>
               ))}
             </div>
@@ -333,7 +333,7 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
                 type="text"
                 value={''}
                 onChange={(e) => handleChange('otherIndustry', e.target.value)}
-                className="mt-3 w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="mt-3 w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                 placeholder="Please specify other industry"
               />
             )}
@@ -347,20 +347,20 @@ export function ProfessionalSummaryStep({ onNext, onBack }: ProfessionalSummaryS
       <div className="flex justify-between mt-8">
         <button
           onClick={onBack}
-          className="px-6 py-3 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105"
+          className="px-6 py-3 text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105 shadow-lg"
         >
           ← Back
         </button>
         <div className="space-x-3">
           <button
             onClick={handleSkip}
-            className="px-6 py-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+            className="px-6 py-3 text-slate-500 hover:text-slate-700 focus:outline-none transition-colors duration-200"
           >
             Skip for now
           </button>
           <button
             onClick={handleNext}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105"
+            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105 shadow-lg"
           >
             Next →
           </button>

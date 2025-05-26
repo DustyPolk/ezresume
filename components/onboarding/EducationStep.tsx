@@ -218,9 +218,9 @@ export function EducationStep({ onNext, onBack }: EducationStepProps) {
     <div className="max-w-3xl mx-auto">
       <div className="mb-8">
         <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Education</h2>
-            <p className="text-gray-600">Add your educational background, starting with the most recent</p>
+          <div className="text-center w-full">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">Education</h2>
+            <p className="text-slate-600 text-lg">Add your educational background, starting with the most recent</p>
           </div>
           {isSaving && (
             <div className="flex items-center text-sm text-gray-500">
@@ -235,10 +235,10 @@ export function EducationStep({ onNext, onBack }: EducationStepProps) {
       </div>
 
       {educations.map((edu, eduIndex) => (
-        <div key={edu.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-6">
+        <div key={edu.id} className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-200 p-8 mb-6">
           {educations.length > 1 && (
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-slate-900">
                 Education {eduIndex + 1}
               </h3>
               <button
@@ -253,15 +253,15 @@ export function EducationStep({ onNext, onBack }: EducationStepProps) {
           <div className="space-y-6">
             {/* School Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
                 School/Institution *
               </label>
               <input
                 type="text"
                 value={edu.school}
                 onChange={(e) => handleEducationChange(eduIndex, 'school', e.target.value)}
-                className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                  errors[eduIndex]?.school ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                  errors[eduIndex]?.school ? 'border-red-500' : 'border-slate-300'
                 }`}
                 placeholder="e.g., University of California, Berkeley"
               />
@@ -273,14 +273,14 @@ export function EducationStep({ onNext, onBack }: EducationStepProps) {
             <div className="grid grid-cols-2 gap-6">
               {/* Degree */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
                   Degree *
                 </label>
                 <select
                   value={edu.degree}
                   onChange={(e) => handleEducationChange(eduIndex, 'degree', e.target.value)}
-                  className={`w-full px-4 py-2 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                    errors[eduIndex]?.degree ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                    errors[eduIndex]?.degree ? 'border-red-500' : 'border-slate-300'
                   }`}
                 >
                   <option value="">Select degree type</option>
@@ -297,15 +297,15 @@ export function EducationStep({ onNext, onBack }: EducationStepProps) {
 
               {/* Field of Study */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
                   Field of Study *
                 </label>
                 <input
                   type="text"
                   value={edu.field}
                   onChange={(e) => handleEducationChange(eduIndex, 'field', e.target.value)}
-                  className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                    errors[eduIndex]?.field ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                    errors[eduIndex]?.field ? 'border-red-500' : 'border-slate-300'
                   }`}
                   placeholder="e.g., Computer Science"
                 />
@@ -316,29 +316,29 @@ export function EducationStep({ onNext, onBack }: EducationStepProps) {
 
               {/* Location */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
                   Location
                 </label>
                 <input
                   type="text"
                   value={edu.location}
                   onChange={(e) => handleEducationChange(eduIndex, 'location', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                   placeholder="e.g., Berkeley, CA"
                 />
               </div>
 
               {/* Graduation Date */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
                   Graduation Date *
                 </label>
                 <input
                   type="month"
                   value={edu.graduationDate}
                   onChange={(e) => handleEducationChange(eduIndex, 'graduationDate', e.target.value)}
-                  className={`w-full px-4 py-2 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                    errors[eduIndex]?.graduationDate ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                    errors[eduIndex]?.graduationDate ? 'border-red-500' : 'border-slate-300'
                   }`}
                 />
                 {errors[eduIndex]?.graduationDate && (
@@ -348,15 +348,15 @@ export function EducationStep({ onNext, onBack }: EducationStepProps) {
 
               {/* GPA */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
                   GPA (Optional)
                 </label>
                 <input
                   type="text"
                   value={edu.gpa || ''}
                   onChange={(e) => handleEducationChange(eduIndex, 'gpa', e.target.value)}
-                  className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                    errors[eduIndex]?.gpa ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                    errors[eduIndex]?.gpa ? 'border-red-500' : 'border-slate-300'
                   }`}
                   placeholder="e.g., 3.85"
                 />
@@ -367,14 +367,14 @@ export function EducationStep({ onNext, onBack }: EducationStepProps) {
 
               {/* Honors */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
                   Honors/Awards (Optional)
                 </label>
                 <input
                   type="text"
                   value={edu.honors || ''}
                   onChange={(e) => handleEducationChange(eduIndex, 'honors', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                   placeholder="e.g., Magna Cum Laude, Dean's List"
                 />
               </div>
@@ -385,7 +385,7 @@ export function EducationStep({ onNext, onBack }: EducationStepProps) {
 
       <button
         onClick={addEducation}
-        className="w-full py-4 border-2 border-dashed border-gray-300 rounded-xl text-gray-600 hover:border-indigo-500 hover:text-indigo-600 transition-colors"
+        className="w-full py-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-600 hover:border-indigo-400 hover:text-indigo-600 transition-all duration-200 transform hover:scale-[1.02]"
       >
         + Add Another Education
       </button>
@@ -393,20 +393,20 @@ export function EducationStep({ onNext, onBack }: EducationStepProps) {
       <div className="flex justify-between mt-8">
         <button
           onClick={onBack}
-          className="px-6 py-3 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105"
+          className="px-6 py-3 text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105 shadow-lg"
         >
           ← Back
         </button>
         <div className="space-x-3">
           <button
             onClick={handleSkip}
-            className="px-6 py-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+            className="px-6 py-3 text-slate-500 hover:text-slate-700 focus:outline-none transition-colors duration-200"
           >
             Skip for now
           </button>
           <button
             onClick={handleNext}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105"
+            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105 shadow-lg"
           >
             Next →
           </button>

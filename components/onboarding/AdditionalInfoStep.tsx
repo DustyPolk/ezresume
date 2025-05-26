@@ -218,9 +218,9 @@ export function AdditionalInfoStep({ onNext, onBack }: AdditionalInfoStepProps) 
     <div className="max-w-3xl mx-auto">
       <div className="mb-8">
         <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Additional Information</h2>
-            <p className="text-gray-600">Optional: Add projects and certifications to strengthen your resume</p>
+          <div className="text-center w-full">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">Additional Information</h2>
+            <p className="text-slate-600 text-lg">Optional: Add projects and certifications to strengthen your resume</p>
           </div>
           {isSaving && (
             <div className="flex items-center text-sm text-gray-500">
@@ -235,23 +235,23 @@ export function AdditionalInfoStep({ onNext, onBack }: AdditionalInfoStepProps) 
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-lg">
+      <div className="flex space-x-1 mb-6 bg-slate-100 p-1 rounded-xl">
         <button
           onClick={() => setActiveTab('projects')}
-          className={`flex-1 py-2 px-4 rounded-md font-medium transition-all ${
+          className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all transform hover:scale-[1.02] ${
             activeTab === 'projects'
-              ? 'bg-white text-indigo-600 shadow-sm'
-              : 'text-gray-600 hover:text-gray-900'
+              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+              : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           Projects ({projects.length})
         </button>
         <button
           onClick={() => setActiveTab('certifications')}
-          className={`flex-1 py-2 px-4 rounded-md font-medium transition-all ${
+          className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all transform hover:scale-[1.02] ${
             activeTab === 'certifications'
-              ? 'bg-white text-indigo-600 shadow-sm'
-              : 'text-gray-600 hover:text-gray-900'
+              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+              : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           Certifications ({certifications.length})
@@ -262,9 +262,9 @@ export function AdditionalInfoStep({ onNext, onBack }: AdditionalInfoStepProps) 
       {activeTab === 'projects' && (
         <div>
           {projects.map((project, index) => (
-            <div key={project.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-4">
+            <div key={project.id} className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-200 p-6 mb-4">
               <div className="flex justify-between items-start mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-slate-900">
                   Project {index + 1}
                 </h3>
                 <button
@@ -277,67 +277,67 @@ export function AdditionalInfoStep({ onNext, onBack }: AdditionalInfoStepProps) 
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
                     Project Name
                   </label>
                   <input
                     type="text"
                     value={project.name}
                     onChange={(e) => updateProject(index, 'name', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                     placeholder="e.g., E-commerce Platform"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
                     Description
                   </label>
                   <textarea
                     value={project.description}
                     onChange={(e) => updateProject(index, 'description', e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                     placeholder="Describe the project, your role, and key achievements..."
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Technologies Used
                     </label>
                     <input
                       type="text"
                       value={project.technologies}
                       onChange={(e) => updateProject(index, 'technologies', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                       placeholder="e.g., React, Node.js, MongoDB"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Date
                     </label>
                     <input
                       type="month"
                       value={project.date}
                       onChange={(e) => updateProject(index, 'date', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
                     Project URL (Optional)
                   </label>
                   <input
                     type="url"
                     value={project.url}
                     onChange={(e) => updateProject(index, 'url', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                     placeholder="https://github.com/username/project"
                   />
                 </div>
@@ -347,7 +347,7 @@ export function AdditionalInfoStep({ onNext, onBack }: AdditionalInfoStepProps) 
 
           <button
             onClick={addProject}
-            className="w-full py-4 border-2 border-dashed border-gray-300 rounded-xl text-gray-600 hover:border-indigo-500 hover:text-indigo-600 transition-colors"
+            className="w-full py-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-600 hover:border-indigo-400 hover:text-indigo-600 transition-all duration-200 transform hover:scale-[1.02]"
           >
             + Add Project
           </button>
@@ -358,9 +358,9 @@ export function AdditionalInfoStep({ onNext, onBack }: AdditionalInfoStepProps) 
       {activeTab === 'certifications' && (
         <div>
           {certifications.map((cert, index) => (
-            <div key={cert.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-4">
+            <div key={cert.id} className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-200 p-6 mb-4">
               <div className="flex justify-between items-start mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-slate-900">
                   Certification {index + 1}
                 </h3>
                 <button
@@ -374,77 +374,77 @@ export function AdditionalInfoStep({ onNext, onBack }: AdditionalInfoStepProps) 
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Certification Name
                     </label>
                     <input
                       type="text"
                       value={cert.name}
                       onChange={(e) => updateCertification(index, 'name', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                       placeholder="e.g., AWS Certified Developer"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Issuing Organization
                     </label>
                     <input
                       type="text"
                       value={cert.issuer}
                       onChange={(e) => updateCertification(index, 'issuer', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                       placeholder="e.g., Amazon Web Services"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Issue Date
                     </label>
                     <input
                       type="month"
                       value={cert.date}
                       onChange={(e) => updateCertification(index, 'date', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Expiry Date (Optional)
                     </label>
                     <input
                       type="month"
                       value={cert.expiryDate}
                       onChange={(e) => updateCertification(index, 'expiryDate', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Credential ID (Optional)
                     </label>
                     <input
                       type="text"
                       value={cert.credentialId}
                       onChange={(e) => updateCertification(index, 'credentialId', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                       placeholder="e.g., ABC123XYZ"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Credential URL (Optional)
                     </label>
                     <input
                       type="url"
                       value={cert.url}
                       onChange={(e) => updateCertification(index, 'url', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                       placeholder="https://credential.url"
                     />
                   </div>
@@ -455,7 +455,7 @@ export function AdditionalInfoStep({ onNext, onBack }: AdditionalInfoStepProps) 
 
           <button
             onClick={addCertification}
-            className="w-full py-4 border-2 border-dashed border-gray-300 rounded-xl text-gray-600 hover:border-indigo-500 hover:text-indigo-600 transition-colors"
+            className="w-full py-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-600 hover:border-indigo-400 hover:text-indigo-600 transition-all duration-200 transform hover:scale-[1.02]"
           >
             + Add Certification
           </button>
@@ -465,13 +465,13 @@ export function AdditionalInfoStep({ onNext, onBack }: AdditionalInfoStepProps) 
       <div className="flex justify-between mt-8">
         <button
           onClick={onBack}
-          className="px-6 py-3 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105"
+          className="px-6 py-3 text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105 shadow-lg"
         >
           ← Back
         </button>
         <button
           onClick={handleNext}
-          className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105"
+          className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105 shadow-lg"
         >
           Complete Onboarding →
         </button>

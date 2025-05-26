@@ -33,7 +33,7 @@ const SKILL_CATEGORIES = [
 ];
 
 const SKILL_LEVELS = [
-  { value: 'beginner', label: 'Beginner', color: 'bg-gray-200' },
+  { value: 'beginner', label: 'Beginner', color: 'bg-slate-200' },
   { value: 'intermediate', label: 'Intermediate', color: 'bg-blue-200' },
   { value: 'advanced', label: 'Advanced', color: 'bg-indigo-200' },
   { value: 'expert', label: 'Expert', color: 'bg-purple-200' },
@@ -243,9 +243,9 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
     <div className="max-w-3xl mx-auto">
       <div className="mb-8">
         <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Skills</h2>
-            <p className="text-gray-600">Add your relevant skills and expertise levels</p>
+          <div className="text-center w-full">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">Skills</h2>
+            <p className="text-slate-600 text-lg">Add your relevant skills and expertise levels</p>
           </div>
           {isSaving && (
             <div className="flex items-center text-sm text-gray-500">
@@ -260,12 +260,12 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
       </div>
 
       {/* Add New Skill */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Add a Skill</h3>
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-200 p-8 mb-6">
+        <h3 className="text-lg font-semibold text-slate-900 mb-4">Add a Skill</h3>
         
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
               Skill Name *
             </label>
             <input
@@ -275,8 +275,8 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
                 setNewSkill({ ...newSkill, name: e.target.value });
                 if (errors.name) setErrors({ ...errors, name: '' });
               }}
-              className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                errors.name ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                errors.name ? 'border-red-500' : 'border-slate-300'
               }`}
               placeholder="e.g., JavaScript"
               onKeyPress={(e) => e.key === 'Enter' && addNewSkill()}
@@ -287,7 +287,7 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
               Category *
             </label>
             <select
@@ -296,8 +296,8 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
                 setNewSkill({ ...newSkill, category: e.target.value });
                 if (errors.category) setErrors({ ...errors, category: '' });
               }}
-              className={`w-full px-4 py-2 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                errors.category ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                errors.category ? 'border-red-500' : 'border-slate-300'
               }`}
             >
               <option value="">Select category</option>
@@ -313,13 +313,13 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
               Proficiency Level
             </label>
             <select
               value={newSkill.level}
               onChange={(e) => setNewSkill({ ...newSkill, level: e.target.value as Skill['level'] })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
             >
               {SKILL_LEVELS.map((level) => (
                 <option key={level.value} value={level.value}>
@@ -332,7 +332,7 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
 
         <button
           onClick={addNewSkill}
-          className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105"
+          className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105 shadow-lg"
         >
           Add Skill
         </button>
@@ -343,13 +343,13 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
       </div>
 
       {/* Suggested Skills */}
-      <div className="bg-gray-50 rounded-xl p-6 mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Suggested Skills</h3>
+      <div className="bg-slate-50/80 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-slate-200">
+        <h3 className="text-lg font-semibold text-slate-900 mb-4">Suggested Skills</h3>
         <div className="mb-3">
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
           >
             <option value="">All Categories</option>
             {Object.keys(COMMON_SKILLS).map((cat) => (
@@ -374,10 +374,10 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
                 key={`${skill.category}-${skill.name}`}
                 onClick={() => !skill.added && addSuggestedSkill(skill.name, skill.category)}
                 disabled={skill.added}
-                className={`px-3 py-1 rounded-full text-sm transition-all ${
+                className={`px-3 py-2 rounded-full text-sm transition-all transform hover:scale-105 ${
                   skill.added
-                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700'
+                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    : 'bg-white border border-slate-300 text-slate-700 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700'
                 }`}
               >
                 {skill.added && '✓ '}{skill.name}
@@ -388,26 +388,26 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
 
       {/* Current Skills */}
       {skills.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Skills ({skills.length})</h3>
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-200 p-8">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Your Skills ({skills.length})</h3>
           
           {Object.entries(groupedSkills).map(([category, categorySkills]) => (
             <div key={category} className="mb-6 last:mb-0">
-              <h4 className="text-md font-medium text-gray-700 mb-3">{category}</h4>
+              <h4 className="text-md font-medium text-slate-700 mb-3">{category}</h4>
               <div className="space-y-2">
                 {categorySkills.map((skill) => (
-                  <div key={skill.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <span className="font-medium text-gray-900">{skill.name}</span>
+                  <div key={skill.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                    <span className="font-medium text-slate-900">{skill.name}</span>
                     <div className="flex items-center space-x-2">
                       <div className="flex space-x-1">
                         {SKILL_LEVELS.map((level) => (
                           <button
                             key={level.value}
                             onClick={() => updateSkillLevel(skill.id, level.value as Skill['level'])}
-                            className={`px-3 py-1 rounded text-xs font-medium transition-all ${
+                            className={`px-3 py-1 rounded-lg text-xs font-medium transition-all transform hover:scale-105 ${
                               skill.level === level.value
-                                ? `${level.color} text-gray-800`
-                                : 'bg-gray-200 text-gray-500 hover:bg-gray-300'
+                                ? `${level.color} text-slate-800`
+                                : 'bg-slate-200 text-slate-500 hover:bg-slate-300'
                             }`}
                           >
                             {level.label}
@@ -415,7 +415,7 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
                         ))}
                       </div>
                       <button
-                        onClick={() => removeSkill(skill.id)}
+                        onClick={() => removeSkillFromList(skill.id)}
                         className="text-red-600 hover:text-red-700 p-1"
                       >
                         <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -434,20 +434,20 @@ export function SkillsStep({ onNext, onBack }: SkillsStepProps) {
       <div className="flex justify-between mt-8">
         <button
           onClick={onBack}
-          className="px-6 py-3 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105"
+          className="px-6 py-3 text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105 shadow-lg"
         >
           ← Back
         </button>
         <div className="space-x-3">
           <button
             onClick={handleSkip}
-            className="px-6 py-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+            className="px-6 py-3 text-slate-500 hover:text-slate-700 focus:outline-none transition-colors duration-200"
           >
             Skip for now
           </button>
           <button
             onClick={handleNext}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105"
+            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105 shadow-lg"
           >
             Next →
           </button>

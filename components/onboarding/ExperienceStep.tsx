@@ -245,9 +245,9 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
     <div className="max-w-3xl mx-auto">
       <div className="mb-8">
         <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Work Experience</h2>
-            <p className="text-gray-600">Add your relevant work experience, starting with the most recent</p>
+          <div className="text-center w-full">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">Work Experience</h2>
+            <p className="text-slate-600 text-lg">Add your relevant work experience, starting with the most recent</p>
           </div>
           {isSaving && (
             <div className="flex items-center text-sm text-gray-500">
@@ -262,10 +262,10 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
       </div>
 
       {experiences.map((exp, expIndex) => (
-        <div key={exp.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-6">
+        <div key={exp.id} className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-200 p-8 mb-6">
           {experiences.length > 1 && (
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-slate-900">
                 Experience {expIndex + 1}
               </h3>
               <button
@@ -280,15 +280,15 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
           <div className="grid grid-cols-2 gap-6">
             {/* Company */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
                 Company *
               </label>
               <input
                 type="text"
                 value={exp.company}
                 onChange={(e) => handleExperienceChange(expIndex, 'company', e.target.value)}
-                className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                  errors[expIndex]?.company ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                  errors[expIndex]?.company ? 'border-red-500' : 'border-slate-300'
                 }`}
                 placeholder="Company Name"
               />
@@ -299,15 +299,15 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
 
             {/* Position */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
                 Position *
               </label>
               <input
                 type="text"
                 value={exp.position}
                 onChange={(e) => handleExperienceChange(expIndex, 'position', e.target.value)}
-                className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                  errors[expIndex]?.position ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                  errors[expIndex]?.position ? 'border-red-500' : 'border-slate-300'
                 }`}
                 placeholder="Job Title"
               />
@@ -318,29 +318,29 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
 
             {/* Location */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
                 Location
               </label>
               <input
                 type="text"
                 value={exp.location}
                 onChange={(e) => handleExperienceChange(expIndex, 'location', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                 placeholder="City, State"
               />
             </div>
 
             {/* Start Date */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
                 Start Date *
               </label>
               <input
                 type="month"
                 value={exp.startDate}
                 onChange={(e) => handleExperienceChange(expIndex, 'startDate', e.target.value)}
-                className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                  errors[expIndex]?.startDate ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                  errors[expIndex]?.startDate ? 'border-red-500' : 'border-slate-300'
                 }`}
               />
               {errors[expIndex]?.startDate && (
@@ -350,7 +350,7 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
 
             {/* End Date */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
                 End Date {!exp.current && '*'}
               </label>
               <input
@@ -358,9 +358,9 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
                 value={exp.endDate}
                 onChange={(e) => handleExperienceChange(expIndex, 'endDate', e.target.value)}
                 disabled={exp.current}
-                className={`w-full px-4 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
-                  errors[expIndex]?.endDate ? 'border-red-500' : 'border-gray-300'
-                } ${exp.current ? 'bg-gray-100' : ''}`}
+                className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                  errors[expIndex]?.endDate ? 'border-red-500' : 'border-slate-300'
+                } ${exp.current ? 'bg-slate-100' : ''}`}
               />
               {errors[expIndex]?.endDate && (
                 <p className="mt-1 text-sm text-red-600">{errors[expIndex].endDate}</p>
@@ -374,9 +374,9 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
                 id={`current-${expIndex}`}
                 checked={exp.current}
                 onChange={(e) => handleExperienceChange(expIndex, 'current', e.target.checked)}
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded"
               />
-              <label htmlFor={`current-${expIndex}`} className="ml-2 block text-sm text-gray-900">
+              <label htmlFor={`current-${expIndex}`} className="ml-2 block text-sm text-slate-900">
                 I currently work here
               </label>
             </div>
@@ -384,20 +384,20 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
 
           {/* Responsibilities */}
           <div className="mt-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
               Key Responsibilities & Achievements *
             </label>
-            <p className="text-sm text-gray-500 mb-3">
+            <p className="text-sm text-slate-500 mb-3">
               Describe your key achievements and responsibilities. Use action verbs and quantify results when possible.
             </p>
             {exp.responsibilities.map((resp, respIndex) => (
               <div key={respIndex} className="flex items-start mb-3">
-                <span className="text-gray-400 mr-3 mt-2">•</span>
+                <span className="text-slate-400 mr-3 mt-2">•</span>
                 <textarea
                   value={resp}
                   onChange={(e) => handleResponsibilityChange(expIndex, respIndex, e.target.value)}
                   rows={2}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="flex-1 px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                   placeholder="e.g., Led a team of 5 engineers to deliver a new feature that increased user engagement by 25%"
                 />
                 {exp.responsibilities.length > 1 && (
@@ -427,7 +427,7 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
 
       <button
         onClick={addNewExperience}
-        className="w-full py-4 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-indigo-400 hover:text-indigo-600 transition-colors"
+        className="w-full py-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-600 hover:border-indigo-400 hover:text-indigo-600 transition-all duration-200 transform hover:scale-[1.02]"
       >
         + Add Another Experience
       </button>
@@ -435,20 +435,20 @@ export function ExperienceStep({ onNext, onBack }: ExperienceStepProps) {
       <div className="flex justify-between mt-8">
         <button
           onClick={onBack}
-          className="px-6 py-3 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105"
+          className="px-6 py-3 text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105 shadow-lg"
         >
           ← Back
         </button>
         <div className="space-x-3">
           <button
             onClick={handleSkip}
-            className="px-6 py-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+            className="px-6 py-3 text-slate-500 hover:text-slate-700 focus:outline-none transition-colors duration-200"
           >
             Skip for now
           </button>
           <button
             onClick={handleNext}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105"
+            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-150 hover:scale-105 shadow-lg"
           >
             Next →
           </button>

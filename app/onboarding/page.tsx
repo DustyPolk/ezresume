@@ -136,10 +136,10 @@ export default function OnboardingPage() {
 
   if (!mounted || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-indigo-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <p className="mt-4 text-slate-600">Loading...</p>
         </div>
       </div>
     );
@@ -184,21 +184,23 @@ export default function OnboardingPage() {
 
   return (
     <OnboardingProvider>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50">
         {/* Progress Bar */}
-        <div className="fixed top-0 left-0 right-0 h-1 bg-gray-200 z-50">
+        <div className="fixed top-0 left-0 right-0 h-1.5 bg-white/50 backdrop-blur-sm z-50">
           <div 
-            className="h-full bg-indigo-600 transition-all duration-300"
+            className="h-full bg-gradient-to-r from-indigo-500 to-indigo-600 transition-all duration-300 shadow-sm"
             style={{ width: `${progress}%` }}
           />
         </div>
 
         {/* Header */}
-        <div className="bg-white shadow-sm border-b border-gray-200">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-indigo-100">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-gray-900">EZResume Onboarding</h1>
-              <div className="text-sm text-gray-500">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-800 bg-clip-text text-transparent">
+                EZResume Onboarding
+              </h1>
+              <div className="text-sm font-medium text-slate-600 bg-white px-4 py-2 rounded-full shadow-sm border border-indigo-100">
                 Step {currentStep} of {ONBOARDING_STEPS.length}
               </div>
             </div>
@@ -206,28 +208,30 @@ export default function OnboardingPage() {
         </div>
 
         {/* Main Content */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <CurrentStepComponent 
-            onNext={handleNext}
-            onBack={handleBack}
-            onComplete={handleComplete}
-            isFirstStep={currentStep === 1}
-            isLastStep={currentStep === ONBOARDING_STEPS.length}
-          />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            <CurrentStepComponent 
+              onNext={handleNext}
+              onBack={handleBack}
+              onComplete={handleComplete}
+              isFirstStep={currentStep === 1}
+              isLastStep={currentStep === ONBOARDING_STEPS.length}
+            />
+          </div>
         </div>
 
         {/* Step Indicators */}
-        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2">
-          <div className="flex space-x-2">
+        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-indigo-100">
+          <div className="flex space-x-3">
             {ONBOARDING_STEPS.map((step) => (
               <div
                 key={step.id}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                className={`h-2.5 rounded-full transition-all duration-300 ${
                   step.id === currentStep
-                    ? 'w-8 bg-indigo-600'
+                    ? 'w-10 bg-gradient-to-r from-indigo-500 to-indigo-600 shadow-sm'
                     : step.id < currentStep
-                    ? 'bg-indigo-400'
-                    : 'bg-gray-300'
+                    ? 'w-2.5 bg-indigo-400'
+                    : 'w-2.5 bg-slate-300'
                 }`}
               />
             ))}
